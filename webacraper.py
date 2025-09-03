@@ -20,12 +20,14 @@ driver.get(url)
 time.sleep(3)  # wait for JS to load
 
 # Extract table rows
-rows = driver.find_elements(By.CSS_SELECTOR, "table tbody tr")
+rowsData = driver.find_elements(By.CSS_SELECTOR, "table tbody tr")
+
 all_stats = []
-for row in rows:
+for row in rowsData:
+    name = [c.text for c in row.find_elements(By.TAG_NAME, "th")]
     cols = [c.text for c in row.find_elements(By.TAG_NAME, "td")]
     if cols:
-        all_stats.append(cols)
+        all_stats.append(name + cols)
 
 driver.quit()
 
