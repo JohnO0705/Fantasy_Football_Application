@@ -1,0 +1,78 @@
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 2rem;
+  background-color: #1e293b;
+  color: white;
+
+  border-bottom: 2px solid #334155;
+  width: 97%;
+}
+
+#logoContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+#icon {
+  color: #2ecc71;
+  padding-top: .25rem;
+}
+
+#logoName {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+#nav-links {
+  display: flex;
+  gap: 5rem;
+  list-style: none;
+  margin: 0;
+  padding-right: 5rem;
+}
+
+#nav-links a {
+  text-decoration: none; /* remove underline */
+  color: white;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+#nav-links a:hover {
+  color: #38bdf8;
+}
+
+#row {
+  display: flex;
+}
+
+#welcomeContainer {
+  float: left;
+  width: 50%;
+  padding-top: 5rem;
+  padding-left: 10rem;
+}
+
+#welcomeStats {
+  float: left;
+  width: 50%;
+  padding-top: 5rem;
+  padding-left: 10rem;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 2rem;
+  border-color: #2ecc71;
+}
+
+#statData {
+  display: flex;
+  gap: 2rem;
+}
+
+#statLabel {
+  display: flex;
+  gap: 2rem;
+}
