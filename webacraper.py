@@ -35,7 +35,12 @@ def load_tables():
 def grab_data(players):
     stats = []
     for player in players:
-        data = [c.text for c in player.find_elements(By.CSS_SELECTOR, "tr.Table__TR td.Table__TD")]
+        data = []
+        for c in player.find_elements(By.CSS_SELECTOR, "tr.Table__TR td.Table__TD"):
+            text = c.text.replace(",", "")
+            if text == "" or text is None:
+                text = 0
+            data.append(text)
         if data:
             stats.append(data)
     return stats
@@ -140,7 +145,7 @@ def rushing_table():
             RUSHING_YARDS INTEGER,
             YARDS_PER_RUSH REAL,
             LONG_RUSHING INTEGER,
-            20+_RUSHING_PLAYS INTEGER,
+            TWENTY_PLUS_RUSHING_PLAYS INTEGER,
             RUSHING_TOUCHDOWNS INTEGER,
             RUSHING_YARDS_PER_GAME REAL,
             RUSHING_FUMBLES INTEGER,
@@ -151,7 +156,7 @@ def rushing_table():
 
     # Insert records
     for player in player_data:
-        c.execute("INSERT INTO rushing (NAME, TEAM, POSITION, GAMES_PLAYED, RUSHING_ATTEMPTS, RUSHING_YARDS, YARDS_PER_RUSH, LONG_RUSHING, 20+_RUSHING_PLAYS, RUSHING_TOUCHDOWNS, RUSHING_YARDS_PER_GAME, RUSHING_FUMBLES, RUSHING_FUMBLES_LOST, FIRST_DOWNS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+        c.execute("INSERT INTO rushing (NAME, TEAM, POSITION, GAMES_PLAYED, RUSHING_ATTEMPTS, RUSHING_YARDS, YARDS_PER_RUSH, LONG_RUSHING, TWENTY_PLUS_RUSHING_PLAYS, RUSHING_TOUCHDOWNS, RUSHING_YARDS_PER_GAME, RUSHING_FUMBLES, RUSHING_FUMBLES_LOST, FIRST_DOWNS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 (player["Names"][0],
                 player["Names"][1],
                 player["Stats"][0], 
@@ -186,7 +191,7 @@ def receiving_table():
             YARDS_PER_RECEPTION REAL,
             RECEIVING_TOUCHDOWNS INTEGER,
             LONG_RECEPTION INTEGER,
-            20+_RECEIVING_YARDS INTEGER,
+            TWENTY_PLUS_RECEIVING_YARDS INTEGER,
             RECEIVING_YARDS_PER_GAME REAL,
             RECEIVING_FUMBLES INTEGER,
             RECEIVING_FUMBLES_LOST INTEGER,
@@ -197,7 +202,7 @@ def receiving_table():
 
     # Insert records
     for player in player_data:
-        c.execute("INSERT INTO receiving (NAME, TEAM, POSITION, GAMES_PLAYED, RECEPTIONS, RECEIVING_TARGETS, RECEIVING_YARDS, YARDS_PER_RECEPTION, RECEIVING_TOUCHDOWNS, LONG_RECEPTION, 20+_RECEIVING_YARDS, RECEIVING_YARDS_PER_GAME, RECEIVING_FUMBLES, RECEIVING_FUMBLES_LOST, RECEIVING_YARDS_AFTER_CATCH, RECEIVING_FIRST_DOWNS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+        c.execute("INSERT INTO receiving (NAME, TEAM, POSITION, GAMES_PLAYED, RECEPTIONS, RECEIVING_TARGETS, RECEIVING_YARDS, YARDS_PER_RECEPTION, RECEIVING_TOUCHDOWNS, LONG_RECEPTION, TWENTY_PLUS_RECEIVING_YARDS, RECEIVING_YARDS_PER_GAME, RECEIVING_FUMBLES, RECEIVING_FUMBLES_LOST, RECEIVING_YARDS_AFTER_CATCH, RECEIVING_FIRST_DOWNS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 (player["Names"][0],
                 player["Names"][1],
                 player["Stats"][0], 
@@ -248,21 +253,26 @@ for i in range(3):
         print("Data inserted successfully.")
         button = driver.find_element(By.LINK_TEXT, "Rushing")
         button.click()
+        time.sleep(3)
+        tab = driver.find_element(By.CSS_SELECTOR, "div.ButtonGroup a.Button--active").text
     elif tab == "Rushing":
         player_data = data_sorting()
-        receiving_table()
+        rushing_table()
         print("Data inserted successfully.")
         button = driver.find_element(By.LINK_TEXT, "Receiving")
         button.click()
+        time.sleep(3)
+        tab = driver.find_element(By.CSS_SELECTOR, "div.ButtonGroup a.Button--active").text
     elif tab == "Receiving":
         player_data = data_sorting()
-        rushing_table()
+        receiving_table()
         print("Data inserted successfully.")
         break
 
 driver.quit()
 c.close()
 connection.close()
+print("Done")
 
 # # Fetch all records
 # rows = c.fetchall()
