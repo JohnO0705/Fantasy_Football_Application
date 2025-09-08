@@ -1,11 +1,8 @@
-from queue import Full
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
 import sqlite3
-import string
-import pandas as pd
 import time
 
 #Checks if variable is a float
