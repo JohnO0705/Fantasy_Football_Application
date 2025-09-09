@@ -3,6 +3,7 @@ from flask_cors import CORS
 import yahoo_fantasy_api as yfa
 from yahoo_oauth import OAuth2
 import sqlite3
+import pandas as pd
 
 
 #Connect to sqlite table
@@ -19,12 +20,19 @@ rows = c.fetchall()
 # c.execute("SELECT id, NAME, TEAM, POSITION FROM rushing WHERE rushing.POSITION = 'QB'")
 # rows = c.fetchall()
 
-count = 0
-print("Players:\n")
+#count = 0
+# print("Players:\n")
+players = []
 for row in rows:
-    count += 1
-    print(count)
-    print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}, Passing Yards: {row[4]}, Passing Touchdowns: {row[5]}, Rushing Yards: {row[6]}, Rushing Touchdowns: {row[7]}, Receiving Yards: {row[8]}, Receicing Touchdowns: {row[8]}")
+    data = [row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]]
+    players.append(data)
+    #count += 1
+    #print(count)
+    #print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}, Passing Yards: {row[4]}, Passing Touchdowns: {row[5]}, Rushing Yards: {row[6]}, Rushing Touchdowns: {row[7]}, Receiving Yards: {row[8]}, Receicing Touchdowns: {row[9]}")
+
+df = pd.DataFrame(players)
+df.fillna(0)
+print(df)
 
 # print("Players:\n")
 # for row in rows:
