@@ -9,12 +9,26 @@ import sqlite3
 connection = sqlite3.connect("player_stats_2024.db")
 c = connection.cursor()
 
-c.execute("SELECT id, NAME, TEAM, POSITION, PASSING_YARDS, PASSING_TOUCHDOWNS FROM passing")
+c.execute("""SELECT p.NAME, p.TEAM, p.POSITION, p.PASSING_YARDS, p.PASSING_TOUCHDOWNS, r.RUSHING_YARDS, r.RUSHING_TOUCHDOWNS, rc.RECEIVING_YARDS, rc.RECEIVING_TOUCHDOWNS 
+          FROM passing p 
+          LEFT JOIN rushing r ON p.NAME = r.NAME 
+          LEFT JOIN receiving rc ON p.NAME = rc.NAME
+          """)
 rows = c.fetchall()
 
+# c.execute("SELECT id, NAME, TEAM, POSITION FROM rushing WHERE rushing.POSITION = 'QB'")
+# rows = c.fetchall()
+
+count = 0
 print("Players:\n")
 for row in rows:
-    print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}, Passing Yards: {row[4]}, Passing Touchdowns: {row[5]}")
+    count += 1
+    print(count)
+    print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}, Passing Yards: {row[4]}, Passing Touchdowns: {row[5]}, Rushing Yards: {row[6]}, Rushing Touchdowns: {row[7]}, Receiving Yards: {row[8]}, Receicing Touchdowns: {row[8]}")
+
+# print("Players:\n")
+# for row in rows:
+#     print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}")
 
 
 # app = Flask(__name__)
