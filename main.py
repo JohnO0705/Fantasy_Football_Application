@@ -4,6 +4,8 @@ import yahoo_fantasy_api as yfa
 from yahoo_oauth import OAuth2
 import sqlite3
 import pandas as pd
+import numpy as np
+import re
 
 
 #Connect to sqlite table
@@ -31,7 +33,13 @@ for row in rows:
     #print(f"Player ID: {row[0]}, Name: {row[1]}, Team: {row[2]}, Position: {row[3]}, Passing Yards: {row[4]}, Passing Touchdowns: {row[5]}, Rushing Yards: {row[6]}, Rushing Touchdowns: {row[7]}, Receiving Yards: {row[8]}, Receicing Touchdowns: {row[9]}")
 
 df = pd.DataFrame(players)
-df.fillna(0)
+df = df.fillna(0)
+# for i in range(100):
+#     for j in range(8):
+#         if isinstance(df.iloc[i, j], np.floating):
+#             df.iloc[i, j] = np.int64(np.round(df.iloc[i, j]))
+#             print(type(df.iloc[i, j]))
+
 print(df)
 
 # print("Players:\n")
